@@ -17,6 +17,12 @@ public class TileObject : MapObject
 		
 	}
 
+    //private void OnMouseDown()
+    //{
+    //    Debug.Log("Mouse Input: " + Input.mousePosition);
+    //    gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+    //}
+
 
     //Init
 

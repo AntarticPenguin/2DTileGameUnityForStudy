@@ -30,7 +30,7 @@ public class MainGameUI : MonoBehaviour {
         return slider;
     }
 
-    public Slider CrateCooltimeSlider()
+    public Slider CreateCooltimeSlider()
     {
         GameObject cooltimeObject = GameObject.Instantiate(CooltimeGuagePrefabs);
         Slider slider = cooltimeObject.GetComponent<Slider>();

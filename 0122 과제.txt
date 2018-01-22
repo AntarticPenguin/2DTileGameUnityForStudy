@@ -1,0 +1,7 @@
+PathfindingIdle
+ - 마우스 입력을 받아서 마우스 Position에 있는 타일셀을 찾는다. (Ray 사용 방법) 실습용에다 할것
+ - 캐릭터의 목표지점으로 세팅한다.
+ - 업데이트 : 캐릭터에 도착 타일셀이 세팅되는 순간 PathfindingTestMove로 교체
+
+PathfindingTestMove
+ - 스타트에 도착 타일셀을 가지고와서 저장

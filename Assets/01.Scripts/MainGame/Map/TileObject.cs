@@ -9,8 +9,8 @@ public class TileObject : MapObject
 
 	void Start ()
     {
-		
-	}
+        _type = eMapObjectType.TILE_OBJECT;
+    }
 
 	void Update ()
     {

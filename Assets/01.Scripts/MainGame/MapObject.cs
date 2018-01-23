@@ -6,6 +6,7 @@ public enum eMapObjectType
 {
     NONE,
     MONSTER,
+    TILE_OBJECT,
 }
 
 public class MapObject : MonoBehaviour
@@ -96,5 +97,17 @@ public class MapObject : MonoBehaviour
             //    Damaged(msgParam.attackPoint);
             //    break;
         }
+    }
+
+    protected int _tileX;
+    protected int _tileY;
+
+    public int GetTileX() { return _tileX; }
+    public int GetTileY() { return _tileY; }
+
+    public void SetTilePosition(int tileX, int tileY)
+    {
+        _tileX = tileX;
+        _tileY = tileY;
     }
 }

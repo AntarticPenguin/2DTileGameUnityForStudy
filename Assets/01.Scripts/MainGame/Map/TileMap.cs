@@ -69,6 +69,7 @@ public class TileMap : MonoBehaviour
 
                     TileObject tileObject = tileGameObject.GetComponent<TileObject>();
                     tileObject.Init(_spriteArray[spriteIndex]);
+                    tileObject.SetTilePosition(x, y);
 
                     _tileCellList[y, x] = new TileCell();
                     GetTileCell(x, y).Init();

@@ -16,8 +16,8 @@ public class Character : MapObject
 {
     protected GameObject _characterView;
 
-    protected int _tileX = 0;
-    protected int _tileY = 0;
+    //protected int _tileX = 0;
+    //protected int _tileY = 0;
 
     protected bool _isLive = true;
     protected int _hp = 100;
@@ -118,8 +118,8 @@ public class Character : MapObject
         _characterView.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
     }
 
-    public int GetTileX() { return _tileX; }
-    public int GetTileY() { return _tileY; }
+    //public int GetTileX() { return _tileX; }
+    //public int GetTileY() { return _tileY; }
 
     eMoveDirection _nextDirection = eMoveDirection.NONE;
 
@@ -275,5 +275,20 @@ public class Character : MapObject
     {
         _hpGuage.value = _hp / 100.0f;
         _cooltimeGuage.value = _attackCooltimeDuration;
+    }
+
+
+    //pathfinding
+
+    TileCell _targetTileCell;
+
+    public TileCell GetTargetTileCell()
+    {
+        return _targetTileCell;
+    }
+
+    public void SetTargetTileCell(TileCell tileCell)
+    {
+        _targetTileCell = tileCell;
     }
 }

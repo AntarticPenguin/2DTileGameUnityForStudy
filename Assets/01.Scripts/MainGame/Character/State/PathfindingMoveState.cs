@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PathfindingMoveState : State
 {
-    public override void Start()
+
+    override public void Start()
     {
         base.Start();
-    }
-
-    public override void Update()
-    {
-        base.Update();
+        if (null != _character.GetTargetTileCell())
+        {
+            Debug.Log("TARGETTILECELL SETTING SUCCESS");
+        }
     }
 }

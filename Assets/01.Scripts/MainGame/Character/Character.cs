@@ -291,4 +291,9 @@ public class Character : MapObject
     {
         _targetTileCell = tileCell;
     }
+
+    public void ResetTargetTileCell()
+    {
+        _targetTileCell = null;
+    }
 }

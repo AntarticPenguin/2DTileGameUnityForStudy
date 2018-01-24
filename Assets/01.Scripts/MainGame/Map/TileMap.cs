@@ -74,6 +74,7 @@ public class TileMap : MonoBehaviour
                     _tileCellList[y, x] = new TileCell();
                     GetTileCell(x, y).Init();
                     GetTileCell(x, y).SetPosition(x * tileSize / 100.0f, y * tileSize / 100.0f);
+                    GetTileCell(x, y).SetTilePosition(x, y);
                     GetTileCell(x, y).AddObject(eTileLayer.GROUND, tileObject);
                 }
             }
@@ -158,5 +159,19 @@ public class TileMap : MonoBehaviour
     {
         TileCell tileCell = GetTileCell(tileX, tileY);
         tileCell.AddObject(layer, mapObject);
+    }
+
+
+    //Pathfinding
+
+    public void ResetPathfinding()
+    {
+        for (int y = 0; y < _height; y++)
+        {
+            for (int x = 0; x < _width; x++)
+            {
+                GetTileCell(x, y).ResetPathfinding();
+            }
+        }
     }
 }

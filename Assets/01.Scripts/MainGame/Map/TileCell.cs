@@ -15,6 +15,9 @@ public class TileCell
     Vector2 _position;
     List<List<MapObject>> _mapObjectMap = new List<List<MapObject>>();
 
+    int _tileX;
+    int _tileY;
+
     public void Init()
     {
         for(int i = 0; i < (int)eTileLayer.MAXCOUNT; i++)
@@ -29,6 +32,15 @@ public class TileCell
         _position.x = x;
         _position.y = y;
     }
+
+    public void SetTilePosition(int tileX, int tileY)
+    {
+        _tileX = tileX;
+        _tileY = tileY;
+    }
+
+    public int GetTileX() { return _tileX; }
+    public int GetTileY() { return _tileY; }
 
     public void AddObject(eTileLayer layer, MapObject mapObject)
     {
@@ -81,4 +93,32 @@ public class TileCell
         }
         return collisionList;
     }
+
+
+    //Pathfinding
+
+    bool _isVisit = false;
+    float _distanceFromStart = 0.0f;
+    float _distanceWeight = 1.0f;
+
+    public void ResetPathfinding()
+    {
+        _isVisit = false;
+        _distanceFromStart = 0.0f;
+        _distanceWeight = 0.0f;
+    }
+
+    public bool IsVisit() { return _isVisit; }
+    public void Visit() { _isVisit = true; }
+    public float GetDistanceFromStart() { return _distanceFromStart; }
+    public void SetDistanceFromStart(float distance) { _distanceFromStart = distance; }
+    public float GetDistanceWeight() { return _distanceWeight; }
+
+    public void DrawColor()
+    {
+        //List<MapObject> mapObjectList = _mapObjectMap[(int)eTileLayer.GROUND];
+        //mapObjectList[0].transform.GetComponent<SpriteRenderer>().color = Color.blue;
+        _mapObjectMap[(int)eTileLayer.GROUND][0].transform.GetComponent<SpriteRenderer>().color = Color.blue;
+    }
+
 }

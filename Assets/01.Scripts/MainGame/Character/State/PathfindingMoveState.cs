@@ -8,9 +8,28 @@ public class PathfindingMoveState : State
     override public void Start()
     {
         base.Start();
-        if (null != _character.GetTargetTileCell())
+
+        _character.PopPathfindingTileCell();
+    }
+
+    override public void Stop()
+    {
+        base.Stop();
+        _character.ClearPathfindingTileCell();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if(false == _character.IsEmptyPathfindingTileCell())
         {
-            Debug.Log("TARGETTILECELL SETTING SUCCESS");
+            TileCell tileCell = _character.PopPathfindingTileCell();
+            _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+        }
+        else
+        {
+            _nextState = eStateType.IDLE;
         }
     }
 }

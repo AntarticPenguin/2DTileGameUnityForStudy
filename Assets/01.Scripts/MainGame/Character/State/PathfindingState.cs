@@ -4,19 +4,31 @@ using UnityEngine;
 
 public class PathfindingState : State
 {
+    enum eUpdateState
+    {
+        PATHFINDING,
+        BUILD_PATH,
+    }
+
     struct sPathCommand
     {
         public TileCell tileCell;
-        public TileCell prevTileCell;
+        public float heuristic;
     }
 
-    Queue<sPathCommand> _pathfindingQueue = new Queue<sPathCommand>();
+    //Queue<sPathCommand> _pathfindingQueue = new Queue<sPathCommand>();
+    List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
 
     TileCell _targetTileCell;
+    TileCell _reverseTileCell = null;
+
+    eUpdateState _updateState;
 
     override public void Start ()
     {
         base.Start();
+        _updateState = eUpdateState.PATHFINDING;
+        _reverseTileCell = null;
 
         //시작타일셀을 큐에 넣는다.
         //길찾기 관련 변수 초기화
@@ -30,8 +42,10 @@ public class PathfindingState : State
 
             sPathCommand command;
             command.tileCell = startTileCell;
-            command.prevTileCell = null;
-            _pathfindingQueue.Enqueue(command);
+            command.heuristic = 0.0f;
+            //command.prevTileCell = null;
+            //_pathfindingQueue.Add(command);
+            PushCommand(command);
         }
         else
         {
@@ -50,11 +64,26 @@ public class PathfindingState : State
     {
         base.Update();
 
+        //좀 더 유연하게 하고 싶으면 상태로 빼면됨
+        switch (_updateState)
+        {
+            case eUpdateState.PATHFINDING:
+                UpdatePathfinding();
+                break;
+            case eUpdateState.BUILD_PATH:
+                UpdateBuildPath();
+                break;
+        }
+    }
+
+    void UpdatePathfinding()
+    {
         //큐의 데이터가 비어있을 때까지 검사
-        if( 0 != _pathfindingQueue.Count)
+        if (0 != _pathfindingQueue.Count)
         {
             //커맨드 하나를 꺼낸다
-            sPathCommand command = _pathfindingQueue.Dequeue();
+            sPathCommand command = _pathfindingQueue[0];
+            _pathfindingQueue.RemoveAt(0);
 
             //커맨드에 포함된 타일셀이 방문되지 않은 경우에만 검사
             if (false == command.tileCell.IsVisit())
@@ -63,17 +92,17 @@ public class PathfindingState : State
                 command.tileCell.Visit();
 
                 //목표에 도달했으면 종료
-                if(command.tileCell.GetTileX() == _targetTileCell.GetTileX() &&
+                if (command.tileCell.GetTileX() == _targetTileCell.GetTileX() &&
                     command.tileCell.GetTileY() == _targetTileCell.GetTileY())
                 {
-                    Debug.Log("finded");
-                    _nextState = eStateType.IDLE;
+                    _reverseTileCell = command.tileCell;
+                    _updateState = eUpdateState.BUILD_PATH;
                     return;
                 }
                 else
                 {
                     //4방향 검사
-                    for(int direction = (int)eMoveDirection.LEFT; direction <=(int)eMoveDirection.DOWN; direction++)
+                    for (int direction = (int)eMoveDirection.LEFT; direction <= (int)eMoveDirection.DOWN; direction++)
                     {
                         //각 방향별 타일셀을 도출
                         sPosition curPosition;
@@ -89,25 +118,63 @@ public class PathfindingState : State
                             //거리값 계산
                             float distanceFromStart = command.tileCell.GetDistanceFromStart() + command.tileCell.GetDistanceWeight();
 
-                            //새로운 커맨드를 만들어 큐에 삽입
-                                //새로운 커맨드에 이전 타일을 세팅(현재 타일이 이전 타일)
-                                    //큐에 삽입
-                                    //방향에 따라 찾은 타일은 거리값을 갱신
-                            nextTileCell.SetDistanceFromStart(distanceFromStart);
+                            if(null == nextTileCell.GetPrevTileCell())
+                            {
+                                nextTileCell.SetDistanceFromStart(distanceFromStart);
+                                nextTileCell.SetPrevTileCell(command.tileCell);
 
-                            //검색범위를 그려준다.
-                            nextTileCell.DrawColor();
+                                //검색범위를 그려준다.
+                                nextTileCell.DrawColor();
 
-                            sPathCommand newCommand;
-                            newCommand.tileCell = nextTileCell;
-                            newCommand.prevTileCell = command.tileCell;
-                            _pathfindingQueue.Enqueue(newCommand);
+                                sPathCommand newCommand;
+                                newCommand.tileCell = nextTileCell;
+                                newCommand.heuristic = distanceFromStart;
+                                //_pathfindingQueue.Add(newCommand);
+                                PushCommand(newCommand);
+                            }
+                            else
+                            {
+                                if(distanceFromStart < nextTileCell.GetDistanceFromStart())
+                                {
+                                    nextTileCell.SetDistanceFromStart(distanceFromStart);
+                                    nextTileCell.SetPrevTileCell(command.tileCell);
+
+                                    sPathCommand newCommand;
+                                    newCommand.tileCell = nextTileCell;
+                                    newCommand.heuristic = distanceFromStart;
+                                    //_pathfindingQueue.Add(newCommand);
+                                    PushCommand(newCommand);
+                                }
+                            }
+                                
                         }
                     }
-                    
                 }
             }
         }
+    }
+
+    void UpdateBuildPath()
+    {
+        if(null != _reverseTileCell)
+        {
+            _reverseTileCell.ResetPathfindingMark();
+            _character.PushPathfindingTileCell(_reverseTileCell);
+            _reverseTileCell = _reverseTileCell.GetPrevTileCell();
+        }
+        else
+        {
+            _nextState = eStateType.MOVE;
+        }
+    }
+
+    void PushCommand(sPathCommand command)
+    {
+        _pathfindingQueue.Add(command);
+
+        //sorting
+        //heuristic 값이 더 적은 것을 앞으로 오게 sorting
+        //sorting 검색해서(MSDN)
     }
 
     //position

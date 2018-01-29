@@ -132,4 +132,21 @@ public class TileCell
         _mapObjectMap[(int)eTileLayer.GROUND][0].transform.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
+    public bool IsPathfindable()
+    {
+        for (int layer = 0; layer < (int)eTileLayer.MAXCOUNT; layer++)
+        {
+            List<MapObject> mapObjectList = _mapObjectMap[layer];
+            for (int i = 0; i < mapObjectList.Count; i++)
+            {
+                if (eMapObjectType.MONSTER != mapObjectList[i].GetObjectType()
+                    && false == mapObjectList[i].CanMove())
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }

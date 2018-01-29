@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class PathfindingState : State
 {
-    enum eUpdateState
+    public enum eUpdateState
     {
         PATHFINDING,
         BUILD_PATH,
     }
 
-    struct sPathCommand
+    protected struct sPathCommand
     {
         public TileCell tileCell;
         public float heuristic;
     }
 
-    List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
+    protected List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
 
-    TileCell _targetTileCell;
-    TileCell _reverseTileCell = null;
+    protected TileCell _targetTileCell;
+    protected TileCell _reverseTileCell = null;
 
-    eUpdateState _updateState;
+    protected eUpdateState _updateState;
 
     override public void Start ()
     {
@@ -73,7 +73,7 @@ public class PathfindingState : State
         }
     }
 
-    void UpdatePathfinding()
+    protected void UpdatePathfinding()
     {
         //큐의 데이터가 비어있을 때까지 검사
         if (0 != _pathfindingQueue.Count)
@@ -110,7 +110,8 @@ public class PathfindingState : State
                         TileCell nextTileCell = GameManager.Instance.GetMap().GetTileCell(nextPosition.x, nextPosition.y);
 
                         //지나갈 수 있고, 방문되지 않은 타일
-                        if (true == nextTileCell.CanMove() && false == nextTileCell.IsVisit())
+                        //if (true == nextTileCell.CanMove() && false == nextTileCell.IsVisit())
+                        if (true == nextTileCell.IsPathfindable() && false == nextTileCell.IsVisit())
                         {
                             float distanceFromStart = command.tileCell.GetDistanceFromStart() + command.tileCell.GetDistanceWeight();
 
@@ -147,7 +148,7 @@ public class PathfindingState : State
         }
     }
 
-    void UpdateBuildPath()
+    protected void UpdateBuildPath()
     {
         if(null != _reverseTileCell)
         {

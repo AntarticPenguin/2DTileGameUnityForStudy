@@ -26,6 +26,7 @@ public class MoveState : State
                 moveY--;
                 break;
         }
+
         if (false == _character.MoveStart(moveX, moveY))
         {
             if (true == _character.IsAttackCoolDown())

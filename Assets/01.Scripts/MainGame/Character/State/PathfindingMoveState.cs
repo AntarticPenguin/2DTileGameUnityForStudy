@@ -36,7 +36,14 @@ public class PathfindingMoveState : State
             eMoveDirection direction = GetDirection(curPosition, nextPosition);
             _character.SetNextDirection(direction);
 
-            _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+            //_character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+            if (false == _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY()))
+            {
+                if (true == _character.IsAttackCoolDown())
+                    _nextState = eStateType.ATTACK;
+                else
+                    _nextState = eStateType.IDLE;
+            }
         }
         else
         {

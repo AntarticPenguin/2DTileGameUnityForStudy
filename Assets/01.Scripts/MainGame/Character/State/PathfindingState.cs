@@ -111,7 +111,7 @@ public class PathfindingState : State
 
                         //지나갈 수 있고, 방문되지 않은 타일
                         //if (true == nextTileCell.CanMove() && false == nextTileCell.IsVisit())
-                        if (true == nextTileCell.IsPathfindable() && false == nextTileCell.IsVisit())
+                        if (true == nextTileCell.IsPathfindable() && false == nextTileCell.IsVisit() && null != nextTileCell)
                         {
                             float distanceFromStart = command.tileCell.GetDistanceFromStart() + command.tileCell.GetDistanceWeight();
 

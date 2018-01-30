@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathfindingImmediate : PathfindingState
+public class PathfindingImmediateState : PathfindingState
 {
     override public void Start()
     {
@@ -16,16 +16,16 @@ public class PathfindingImmediate : PathfindingState
             UpdatePathfinding();
         }
 
-        while(null != _reverseTileCell)
+        while(eStateType.MOVE != _nextState)
         {
             UpdateBuildPath();
         }
     }
 
-    //override public void Update()
-    //{
+    override public void Update()
+    {
 
-    //}
+    }
 
     override public void Stop()
     {

@@ -27,6 +27,7 @@ public class PathfindingIdleState : State
                     if(eMapObjectType.TILE_OBJECT == mapObject.GetObjectType())
                     {
                         hit.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                        //_character.ShowMoveCursor(hit.collider.gameObject.transform.position);
 
                         TileCell tileCell = GameManager.Instance.GetMap().GetTileCell(mapObject.GetTileX(), mapObject.GetTileY());
                         if(true == tileCell.IsPathfindable())

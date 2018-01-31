@@ -8,6 +8,8 @@ public class AttackState : State
     {
         base.Start();
 
+        SoundPlayer.Instance.playEffect("player_hit");
+
         int moveX = _character.GetTileX();
         int moveY = _character.GetTileY();
 
@@ -35,7 +37,6 @@ public class AttackState : State
             {
                 case eMapObjectType.MONSTER:
                     _character.Attack(collisionList[i]);
-                    Debug.Log("Attack");
                     break;
             }
         }

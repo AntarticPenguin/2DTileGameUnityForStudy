@@ -225,6 +225,12 @@ public class Character : MapObject
 
     public void DecreaseHP(int damagedPoint)
     {
+        string filePath = "Prefabs/Effects/DamageEffect";
+        GameObject effectPrefab = Resources.Load<GameObject>(filePath);
+        GameObject effectObject = GameObject.Instantiate(effectPrefab, transform.position, Quaternion.identity);
+        GameObject.Destroy(effectObject, 1.0f);
+
+
         _characterView.GetComponent<SpriteRenderer>().color = Color.red;
         Invoke("ResetColor", 0.1f);
 

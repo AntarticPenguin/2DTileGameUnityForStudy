@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainGameUI : MonoBehaviour {
+public class MainGameUI : MonoBehaviour
+{
 
 	// Use this for initialization
 	void Start ()
@@ -35,5 +36,22 @@ public class MainGameUI : MonoBehaviour {
         GameObject cooltimeObject = GameObject.Instantiate(CooltimeGuagePrefabs);
         Slider slider = cooltimeObject.GetComponent<Slider>();
         return slider;
+    }
+
+
+    //Button Action
+
+    public void OnAttack()
+    {
+        Debug.Log("Attack");
+        Character target = GameManager.Instance.TargetCharcter;
+
+        MessageParam msgParam = new MessageParam();
+        msgParam.sender = null;
+        msgParam.receiver = target;
+        msgParam.message = "Attack";
+        msgParam.attackPoint = 200;
+
+        MessageSystem.Instance.Send(msgParam);
     }
 }

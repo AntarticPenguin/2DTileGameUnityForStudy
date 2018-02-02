@@ -121,9 +121,6 @@ public class Character : MapObject
         _characterView.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
     }
 
-    //public int GetTileX() { return _tileX; }
-    //public int GetTileY() { return _tileY; }
-
     eMoveDirection _nextDirection = eMoveDirection.NONE;
 
     public eMoveDirection GetNextDirection() { return _nextDirection; }

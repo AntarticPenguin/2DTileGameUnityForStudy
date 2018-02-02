@@ -36,6 +36,8 @@ public class MainGameScene : MonoBehaviour
         Character player = CreateCharacter("Player", "character01");
         Character monster = CreateCharacter("Monster", "character02");
         player.BecomeViewer();
+
+        GameManager.Instance.TargetCharcter = monster;
     }
 
     Character CreateCharacter(string fileName, string resourceName)

@@ -110,7 +110,6 @@ public class PathfindingState : State
                         TileCell nextTileCell = GameManager.Instance.GetMap().GetTileCell(nextPosition.x, nextPosition.y);
 
                         //지나갈 수 있고, 방문되지 않은 타일
-                        //if (true == nextTileCell.CanMove() && false == nextTileCell.IsVisit())
                         if (true == nextTileCell.IsPathfindable() && false == nextTileCell.IsVisit() && null != nextTileCell)
                         {
                             float distanceFromStart = command.tileCell.GetDistanceFromStart() + command.tileCell.GetDistanceWeight();

@@ -42,4 +42,8 @@ public class GameManager
     {
         _tileMap = map;
     }
+
+    //test
+
+    public Character TargetCharcter;
 }
